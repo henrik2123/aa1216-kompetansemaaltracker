@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aa-1216-kompetansemaaltracker-prod
+spec:
+  project: iuv30012426
+  destination:
+    namespace: aa1216-komeptansemaaltracker-dev
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/henrik2123/aa1216-kompetansemaaltracker.git
+    targetRevision: HEAD
+    path: k8s/overlays/production

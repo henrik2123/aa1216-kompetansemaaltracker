@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-aa1216_kompetansemaaltracker-67e99ba4-15bd-4aaa-b4a3-c6bbf427dcf9</UserSecretsId>
+    <RootNamespace>aa1216_kompetansemaaltracker</RootNamespace>
+    
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <IsPublishable>true</IsPublishable>
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+    <ContainerRepository>intility/aa-1216-kompetansemaaltracker</ContainerRepository>
+    <ContainerRegistry>ghcr.io</ContainerRegistry>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/runtime-deps:9.0-alpine-extra</ContainerBaseImage>
+    <SelfContained>true</SelfContained>
+    <PublishProfile>DefaultContainer</PublishProfile>
+
+    <!-- https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-5.0&tabs=visual-studio#xml-comments -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="8.1.1" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.8.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+    <PackageReference Include="Intility.Logging.AspNetCore" Version="3.0.4" />
+    <PackageReference Include="Intility.Extensions.Logging.Elasticsearch" Version="3.0.4" />
+    <PackageReference Include="Intility.Extensions.Logging.Sentry" Version="3.0.4" />
+    <PackageReference Include="Intility.Authorization.Azure.GuestPolicies" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+     <InternalsVisibleTo Include="aa1216_kompetansemaaltracker.Tests" />
+  </ItemGroup>
+
+  <Target Name="OutputContainerDigest" AfterTargets="PublishContainer" Condition=" '$(GITHUB_OUTPUT)' != '' ">
+    <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-digest=$(GeneratedContainerDigest)" />
+    <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-image=$(ContainerRegistry)/$(ContainerRepository)" />
+  </Target>
+</Project>

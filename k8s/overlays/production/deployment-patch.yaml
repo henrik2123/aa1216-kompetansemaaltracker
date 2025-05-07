@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aa-1216-kompetansemaaltracker
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - name: aa-1216-kompetansemaaltracker
+          resources:
+            requests:
+              memory: 256Mi
+            limits:
+              memory: 512Mi

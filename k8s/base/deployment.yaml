@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aa-1216-kompetansemaaltracker
+  labels:
+    app.openshift.io/runtime: dotnet
+spec:
+  replicas: 2
+  revisionHistoryLimit: 0
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: aa-1216-kompetansemaaltracker
+  template:
+    metadata:
+      labels:
+        app: aa-1216-kompetansemaaltracker
+    spec:
+      containers:
+        - name: aa-1216-kompetansemaaltracker
+          image: ghcr.io/intility/aa-1216-kompetansemaaltracker
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 20
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 20m
+              memory: 128Mi
+          envFrom:
+            - secretRef:
+                name: aa-1216-kompetansemaaltracker-secrets
+            - configMapRef:
+                name: aa-1216-kompetansemaaltracker-config
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: aa-1216-kompetansemaaltracker
+              topologyKey: "kubernetes.io/hostname"

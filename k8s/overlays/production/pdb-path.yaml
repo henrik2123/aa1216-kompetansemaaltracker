@@ -1,0 +1,6 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: aa-1216-kompetansemaaltracker
+  spec:
+    minAvailable: 2

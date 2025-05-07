@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+nameSuffix: -dev
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/part-of: aa-1216-kompetansemaaltracker-dev
+
+configMapGenerator:
+  - name: aa-1216-kompetansemaaltracker-config
+    literals:
+      - ASPNETCORE_ENVIRONMENT=Development
